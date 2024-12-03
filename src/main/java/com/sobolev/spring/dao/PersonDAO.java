@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDAO {
@@ -20,5 +21,22 @@ public class PersonDAO {
 
     public List<Person> index(){
         return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
+    }
+
+    public Person findById(int id){
+        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new BeanPropertyRowMapper<>(Person.class), id).stream().findFirst().orElse(null);
+    }
+
+    public Optional<Person> show(String fio){
+        return jdbcTemplate.query("SELECT * FROM Person WHERE fio=?", new BeanPropertyRowMapper<>(Person.class), fio)
+                .stream().findAny();
+    }
+
+    public void save(Person person){
+        jdbcTemplate.update("INSERT INTO Person(fio, year_of_birth) VALUES(?,?)", person.getFio(), person.getYearOfBirth());
+    }
+
+    public void delete(int id){
+        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 }

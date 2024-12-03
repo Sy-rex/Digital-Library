@@ -1,8 +1,18 @@
 package com.sobolev.spring.models;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+
 public class Person {
     private int id;
+
+    @Pattern(regexp = "^[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+(?: [А-ЯЁ][а-яё]+)?", message = "ФИО должно быть вида: Фамилия Имя Отчество")
     private String fio;
+
+    @Min(value = 1899, message = "Год рождения не может быть меньше 1900")
+    @Max(value = 2024, message = "Год рождения должен быть меньше 2025")
     private int yearOfBirth;
 
 
