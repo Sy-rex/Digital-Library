@@ -11,7 +11,7 @@ public class Person {
     @Pattern(regexp = "^[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+(?: [А-ЯЁ][а-яё]+)?", message = "ФИО должно быть вида: Фамилия Имя Отчество")
     private String fio;
 
-    @Min(value = 1899, message = "Год рождения не может быть меньше 1900")
+    @Min(value = 1901, message = "Год рождения не может быть меньше 1901")
     @Max(value = 2024, message = "Год рождения должен быть меньше 2025")
     private int yearOfBirth;
 
