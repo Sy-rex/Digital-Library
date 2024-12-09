@@ -1,20 +1,31 @@
 package com.sobolev.spring.models;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import org.springframework.lang.Nullable;
+
 public class Book {
     private int id;
     private String title;
+
+    @Pattern(regexp = "^[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+$", message = "Автор должен быть в формате: Имя Фамилия")
     private String author;
+
+    private int personId;
+
+    @Min(value = 1, message = "Год написания книги не может быть меньше 1")
+    @Max(value = 2024,message = "Год написания книги не может быть больше 2024")
     private int yearOfFoundation;
-    private int idPerson;
 
     public Book() {}
 
-    public Book(int id, String title, String author, int yearOfFoundation, int idPerson) {
+    public Book(int id, String title, String author, int personId, int yearOfFoundation) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.yearOfFoundation = yearOfFoundation;
-        this.idPerson = idPerson;
+        this.personId = personId;
     }
 
     public int getId() {
@@ -49,11 +60,11 @@ public class Book {
         this.yearOfFoundation = yearOfFoundation;
     }
 
-    public int getIdPerson() {
-        return idPerson;
+    public int getPersonId() {
+        return personId;
     }
 
-    public void setIdPerson(int idPerson) {
-        this.idPerson = idPerson;
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 }

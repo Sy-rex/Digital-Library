@@ -1,25 +1,24 @@
 package com.sobolev.spring.util;
 
-import com.sobolev.spring.dao.PersonDAO;
-import com.sobolev.spring.models.Person;
+import com.sobolev.spring.dao.BookDAO;
+import com.sobolev.spring.models.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class PersonValidator implements Validator {
-
-    private final PersonDAO personDAO;
+public class BookValidator implements Validator{
+    private final BookDAO bookDAO;
 
     @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public BookValidator(BookDAO bookDAO) {
+        this.bookDAO = bookDAO;
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return Person.class.equals(aClass);
+        return Book.class.equals(aClass);
     }
 
     /**
@@ -29,11 +28,10 @@ public class PersonValidator implements Validator {
      */
     @Override
     public void validate(Object o, Errors errors) {
+        Book book = (Book) o;
 
-        Person person = (Person) o;
-
-        if (personDAO.show(person.getFio()).isPresent()) {
-            errors.rejectValue("fio", "", "Такой человек уже есть в системе");
+        if (bookDAO.show(book.getTitle()).isPresent() && bookDAO.countTitle(book.getId(), book.getTitle()) != 0 ){
+            errors.rejectValue("title", "", "Такое произведение уже есть в системе");
         }
     }
 }

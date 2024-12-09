@@ -37,6 +37,7 @@ public class Person {
     }
 
     public void setFio(String fio) {
+        System.out.println(fio);
         this.fio = fio;
     }
 

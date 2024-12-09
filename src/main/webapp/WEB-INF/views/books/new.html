@@ -9,14 +9,17 @@
 <form th:method="POST" th:action="@{/books}" th:object="${book}">
     <label for="title">Введите название книги:</label>
     <input type="text" th:field="*{title}" id="title"/>
+    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Проблемы с названием</div>
     <br/>
     <label for="author">Введите автора:</label>
     <input type="text" th:field="*{author}" id="author"/>
+    <div style="color: red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Проблемы с автором</div>
     <br/>
     <label for="year">Введите год:</label>
     <input type="text" th:field="*{yearOfFoundation}" id="year"/>
+    <div style="color: red" th:if="${#fields.hasErrors('yearOfFoundation')}" th:errors="*{yearOfFoundation}">Проблемы с годом написания</div>
     <br/>
-    <input type="submit" value="Создать!">
+    <input type="submit" value="Создать">
 </form>
 </body>
 </html>
