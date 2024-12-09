@@ -4,9 +4,11 @@ import com.sobolev.spring.dao.BookRowMapper;
 import com.sobolev.spring.models.Book;
 import com.sobolev.spring.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +16,12 @@ import java.util.Optional;
 @Component
 public class BookDAO {
     private final JdbcTemplate jdbcTemplate;
+    private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Autowired
-    public BookDAO(JdbcTemplate jdbcTemplate) {
+    public BookDAO(JdbcTemplate jdbcTemplate, HandlerExceptionResolver handlerExceptionResolver) {
         this.jdbcTemplate = jdbcTemplate;
+        this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
     public List<Book> index(){
@@ -41,11 +45,15 @@ public class BookDAO {
     }
 
     public String findConsumer(int id) {
-        return jdbcTemplate.queryForObject(
-                "SELECT fio FROM Person JOIN Book ON Person.id = Book.person_id WHERE Book.id=?",
-                new Object[]{id},
-                String.class
-        );
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT fio FROM Person JOIN Book ON Person.id = Book.person_id WHERE Book.id=?",
+                    new Object[]{id},
+                    String.class
+            );
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
 

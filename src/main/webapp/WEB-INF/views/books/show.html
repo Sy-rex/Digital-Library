@@ -19,7 +19,7 @@
 </div>
 <div th:if="${book.getPersonId()}">
     <form th:method="DELETE" th:action="@{/books}">
-        <p th:text="${'Книга сейчас у: ' + person.getFio()}">VALUE</p>
+        <p th:text="${'Книга сейчас у: ' + pers}">VALUE</p>
         <br/>
         <input type="submit" value="Освободить книгу">
     </form>
