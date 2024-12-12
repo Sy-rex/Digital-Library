@@ -69,4 +69,12 @@ public class BookDAO {
     public void delete(int id){
         jdbcTemplate.update("DELETE FROM Book WHERE id=?",id);
     }
+
+    public void deleteLink(int id){
+        jdbcTemplate.update("UPDATE Book SET person_id=null WHERE id=?",id);
+    }
+
+    public void setLink(int id, int person_id){
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?",person_id,id);
+    }
 }

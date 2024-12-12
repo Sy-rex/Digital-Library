@@ -59,6 +59,18 @@ public class BookController {
         return "redirect:/books";
     }
 
+    @PatchMapping("/{id}/owner")
+    public String deleteOwner(@PathVariable("id") int id) {
+        bookDao.deleteLink(id);
+        return "redirect:/books";
+    }
+
+    @PatchMapping("/{id}/setLink")
+    public String updateOwner(@PathVariable("id") int id, @RequestParam("id") int personId) {
+        bookDao.setLink(id,personId);
+        return "redirect:/books";
+    }
+
     @PatchMapping("/{id}")
     public String update(@PathVariable("id") int id,@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
         bookValidator.validate(book, bindingResult);

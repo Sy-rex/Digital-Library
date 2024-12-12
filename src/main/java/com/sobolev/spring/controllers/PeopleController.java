@@ -1,6 +1,7 @@
 package com.sobolev.spring.controllers;
 
 import com.sobolev.spring.dao.PersonDAO;
+import com.sobolev.spring.models.Book;
 import com.sobolev.spring.models.Person;
 import com.sobolev.spring.util.PersonValidator;
 import jakarta.validation.Valid;
@@ -36,7 +37,14 @@ public class PeopleController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
+        List<Book> books = personDAO.selectBooks(id);
+        boolean empty = false;
+        if (books.isEmpty()) {
+            empty = true;
+        }
+        model.addAttribute("book", books);
         model.addAttribute("person", personDAO.findById(id));
+        model.addAttribute("empty", empty);
         return "people/show";
     }
 
